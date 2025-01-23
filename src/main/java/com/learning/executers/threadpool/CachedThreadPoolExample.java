@@ -20,7 +20,7 @@ public class CachedThreadPoolExample {
         //Important thing we test here is that, whether it grows unbounded threads within.
         // Yes it does, and you have to be careful about it.
         ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
-        IntStream.rangeClosed(1,1_000_000).forEach(value -> cachedThreadPool.submit(getTask(value)));
+        IntStream.rangeClosed(1,1_000_000).forEach(value -> cachedThreadPool.submit(getTask()));
 
         cachedThreadPool.shutdown();
         boolean success = cachedThreadPool.awaitTermination(5, TimeUnit.SECONDS);
@@ -30,7 +30,7 @@ public class CachedThreadPoolExample {
             System.out.println("Operation did not complete successfully");
     }
 
-    private static Runnable getTask(int value) {
+    private static Runnable getTask() {
         return () -> {
             var threadName = Thread.currentThread().getName();
 
