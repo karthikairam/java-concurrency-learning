@@ -1,4 +1,4 @@
-package com.learning.concurrent.collections;
+package com.learning.concurrent.collections.lists;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
