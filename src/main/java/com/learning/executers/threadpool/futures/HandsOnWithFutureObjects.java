@@ -9,7 +9,13 @@ public class HandsOnWithFutureObjects {
 
         futureHappyScenario(threadPool);
         futureHappyScenarioWithTimeout(threadPool);
-        futureHappyScenarioWithTimeoutFailure(threadPool);
+        try{
+            futureHappyScenarioWithTimeoutFailure(threadPool);
+        } finally {
+            threadPool.shutdown();
+            var success = threadPool.awaitTermination(7, TimeUnit.SECONDS);
+            System.out.println("Executor's shutdown was graceful:"+success);
+        }
     }
 
     private static void futureHappyScenarioWithTimeoutFailure(ExecutorService threadPool) throws ExecutionException, InterruptedException, TimeoutException {
