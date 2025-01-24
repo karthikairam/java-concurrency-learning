@@ -2,9 +2,7 @@ package com.learning.concurrent.collections.queues;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.concurrent.DelayQueue;
-import java.util.concurrent.Delayed;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class DelayedQueues {
 
