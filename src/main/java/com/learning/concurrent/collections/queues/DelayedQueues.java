@@ -2,7 +2,9 @@ package com.learning.concurrent.collections.queues;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.concurrent.*;
+import java.util.concurrent.DelayQueue;
+import java.util.concurrent.Delayed;
+import java.util.concurrent.TimeUnit;
 
 public class DelayedQueues {
 
@@ -13,14 +15,11 @@ public class DelayedQueues {
     public static void testDelayedWorkerQueue() {
         var reminderSchedulerQueue = new DelayQueue<ReminderTask>();
 
-        // Set the tasks with reminder
-        var task1 = new ReminderTask("Good Morning, Have a great day", Duration.ofSeconds(2));
-        var task2 = new ReminderTask("Breakfast time, switch on the bread toaster", Duration.ofSeconds(4));
-        reminderSchedulerQueue.put(task1);
-        reminderSchedulerQueue.put(task2);
+        addReminders(reminderSchedulerQueue);
 
         //process the queue as the time expires, the tasks will arrive
-        while(!reminderSchedulerQueue.isEmpty()) {
+        while (!reminderSchedulerQueue.isEmpty()) {
+
             try {
                 var reminderTask = reminderSchedulerQueue.take();
                 System.out.printf("Reminder message %s at %s.\n", reminderTask.message, LocalDateTime.now());
@@ -30,6 +29,14 @@ public class DelayedQueues {
         }
 
         System.out.println("All the reminder tasks are completed");
+    }
+
+    private static void addReminders(DelayQueue<ReminderTask> reminderSchedulerQueue) {
+        // Set the tasks with reminder
+        var task1 = new ReminderTask("Good Morning, Have a great day", Duration.ofSeconds(2));
+        var task2 = new ReminderTask("Breakfast time, switch on the bread toaster", Duration.ofSeconds(4));
+        reminderSchedulerQueue.put(task1);
+        reminderSchedulerQueue.put(task2);
     }
 
     public static class ReminderTask implements Delayed {
@@ -51,7 +58,7 @@ public class DelayedQueues {
         @Override
         public int compareTo(Delayed other) {
 
-            if(!(other instanceof ReminderTask otherTask)) {
+            if (!(other instanceof ReminderTask otherTask)) {
                 throw new IllegalArgumentException("Given object is not ReminderTask type.");
             }
 
